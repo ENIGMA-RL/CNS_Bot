@@ -22,7 +22,8 @@ module.exports = {
       });
     }
 
-    const message = interaction.options.getString('message');
+    let message = interaction.options.getString('message');
+message = message.replace(/\\n/g, '\n');
 
     // Send the message publicly as the bot
     await interaction.channel.send(message);
