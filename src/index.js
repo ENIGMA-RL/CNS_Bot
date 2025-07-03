@@ -53,7 +53,7 @@ client.once('ready', async () => {
   }
 
   client.user.setPresence({
-    activities: [{ name: 'Attack on VAIIYA', type: 0 }],
+    activities: [{ name: 'Watching VAIIYA', type: 0 }],
     status: 'online',
   });
 
