@@ -1,7 +1,9 @@
 module.exports = {
   name: 'ping',
-  description: 'Ping command',
-  execute(message, args) {
-    message.channel.send('Pong!');
+  description: 'Replies with Pong!',
+  options: [],
+
+  async execute(interaction) {
+    await interaction.reply('Pong!');
   },
-}; 
+};
