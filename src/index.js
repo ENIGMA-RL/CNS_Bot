@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, GatewayIntentBits, REST, Routes } = require('discord.js');
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
@@ -6,55 +6,91 @@ const config = require('../config/config');
 const logger = require('../utils/logger');
 
 // Create a new Discord client with required intents for reading messages and guilds
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
-
-// Log when the bot successfully connects
-client.once('ready', () => {
-  logger.info(`Logged in as ${client.user.tag}!`);
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+  ],
 });
-
-// Handle and log any client errors
-client.on('error', error => {
-  logger.error('Client error:', error);
-});
-
-// Handle and log any client warnings
-client.on('warn', warning => {
-  logger.warn('Client warning:', warning);
-});
-
-// Initialize a Map to store bot commands
-client.commands = new Map();
 
 // Load all command files from the commands directory
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
-// Register each command in the commands Map
+const commands = [];
+
 for (const file of commandFiles) {
-  const filePath = path.join(commandsPath, file);
-  const command = require(filePath);
-  client.commands.set(command.name, command);
+  const command = require(`./commands/${file}`);
+  commands.push(command);
 }
 
-// Load all event files from the events directory
-const eventsPath = path.join(__dirname, 'events');
-const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+client.once('ready', async () => {
+  
 
-// Register each event handler
-// Events marked as 'once' will only trigger once
-// Other events will trigger every time they occur
-for (const file of eventFiles) {
-  const filePath = path.join(eventsPath, file);
-  const event = require(filePath);
-  if (event.once) {
-    client.once(event.name, (...args) => event.execute(...args));
-  } else {
-    client.on(event.name, (...args) => event.execute(...args));
+  const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+
+  try {
+    console.log('Started refreshing application (/) commands.');
+
+    await rest.put(
+      Routes.applicationGuildCommands(client.user.id, '1026532204706271252'),
+      { body: commands },
+    );
+
+    console.log('Successfully reloaded application (/) commands.');
+  } catch (error) {
+    console.error(error);
   }
-}
 
-// Log in the bot using the token from environment variables
-client.login(process.env.DISCORD_TOKEN).catch(error => {
-  logger.error('Login error:', error);
-}); 
+  // Rich Presence Setup
+  client.user.setPresence({
+    activities: [
+      {
+        name: 'Attack on VAIIYA',
+        type: 0, // Playing
+      },
+    ],
+    status: 'online',
+  });
+  
+  console.log('Bot Presence is active');
+
+  console.log('Bot is ready!');
+  
+});
+
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isCommand()) return;
+
+  const command =
+    commands.find(cmd => cmd.name === interaction.commandName);
+
+  if (!command) return;
+
+  try {
+    await command.execute(interaction);
+  } catch (error) {
+    console.error(error);
+    if (error.code === 'InteractionCollectorError') {
+      await interaction.followUp({
+        content: 'There was an error trying to execute that command!',
+        ephemeral: true,
+      }).catch(err => {
+        if (err) {
+          logger.error(err);
+        }
+      });
+    } else {
+      await interaction.followUp({
+        content: 'There was an error trying to execute that command!',
+        ephemeral: true,
+      }).catch(err => {
+        if (err) {
+          logger.error(err);
+        }
+      });
+    }
+  }
+});
+
+client.login(process.env.TOKEN); 
