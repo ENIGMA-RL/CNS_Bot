@@ -17,9 +17,9 @@ module.exports = {
 
     if (!hasRole) {
       return interaction.reply({
-        content: '🚫 You do not have permission to use this command.',
-        ephemeral: true,
-      });
+				content: '🚫 You do not have permission to use this command.',
+				flags: 64, // ephemeral
+			});			
     }
 
     let message = interaction.options.getString('message');
@@ -30,8 +30,8 @@ message = message.replace(/\\n/g, '\n');
 
     // Acknowledge the interaction privately
     await interaction.reply({
-      content: '✅ Message sent!',
-      ephemeral: true,
-    });
+			content: '✅ Message sent!',
+			flags: 64,
+		});		
   },
 };
