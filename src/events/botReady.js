@@ -6,6 +6,9 @@ const { setPresence } = require('../services/presenceService');
 module.exports = async (client) => {
   console.log('Starting bot...');
 
+  // Register commands
+  await registerCommands(client);
+
   // Set presence
   setPresence(client);
 

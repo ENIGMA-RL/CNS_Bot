@@ -6,7 +6,7 @@ async function getUserData(userId) {
       headers: {
         Authorization: `Bot ${process.env.TOKEN}`,
       },
-      timeout: 20000, // Increase timeout to 20 seconds
+      timeout: 10000,
     });
 
     if (!response.ok) {

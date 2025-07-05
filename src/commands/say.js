@@ -6,7 +6,7 @@ module.exports = {
   options: [
     {
       name: 'message',
-      type: 3, // STRING type
+      type: 3,
       description: 'The message to say',
       required: true,
     },
@@ -18,17 +18,15 @@ module.exports = {
     if (!hasRole) {
       return interaction.reply({
 				content: '🚫 You do not have permission to use this command.',
-				flags: 64, // ephemeral
+				flags: 64,
 			});			
     }
 
     let message = interaction.options.getString('message');
 message = message.replace(/\\n/g, '\n');
 
-    // Send the message publicly as the bot
     await interaction.channel.send(message);
 
-    // Acknowledge the interaction privately
     await interaction.reply({
 			content: '✅ Message sent!',
 			flags: 64,

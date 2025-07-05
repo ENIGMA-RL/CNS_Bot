@@ -24,7 +24,7 @@ module.exports = async (client) => {
   }
 
   await guild.members.fetch();
-  console.log('🔍 Fetched members.');
+  console.log('✅ Fetched members');
 
   let membersUsingTag = 0;
 
@@ -34,15 +34,13 @@ module.exports = async (client) => {
       if (data?.primary_guild?.identity_enabled && data?.primary_guild?.tag === 'CNS') {
         membersUsingTag++;
       }
-      await new Promise(resolve => setTimeout(resolve, 100)); // to avoid rate limit
+      await new Promise(resolve => setTimeout(resolve, 20));
     } catch (err) {
       console.error(`Failed to fetch user data for ID ${member.id}`);
     }
   }
 
   client.currentTaggedUserCount = membersUsingTag;
-  console.log(`✅ Total CNS-tagged users: ${membersUsingTag}`);
-  console.log('✅ Finished logging all members.');
 
   await updateStats(client, guild);
   setInterval(() => updateStats(client, guild), 5 * 60 * 1000);

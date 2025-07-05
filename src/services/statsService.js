@@ -7,7 +7,7 @@ async function getUserData(userId) {
       headers: {
         Authorization: `Bot ${process.env.TOKEN}`,
       },
-      timeout: 20000, // Increase timeout to 20 seconds
+      timeout: 10000,
     });
 
     if (!response.ok) {
@@ -19,7 +19,7 @@ async function getUserData(userId) {
   } catch (error) {
     if (error.code === 'UND_ERR_CONNECT_TIMEOUT') {
       console.error(`Timeout fetching user data for ID ${userId}`);
-      return null; // Skip this step and continue
+      return null; 
     }
     console.error(`Error fetching user data for ID ${userId}:`, error);
     return null;
@@ -55,7 +55,7 @@ async function updateStats(client, guild) {
     await channel.send({ embeds: [embed] });
   }
 
-  console.log(`📊 Stats updated: ${client.currentTaggedUserCount} tagged users`);
+  console.log(`📊 Stats updated (${timestamp})`);
 }
 
 module.exports = { getUserData, updateStats }; 

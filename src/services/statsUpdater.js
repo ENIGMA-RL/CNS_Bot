@@ -8,13 +8,15 @@ async function updateStats(client, guild, currentTaggedUserCount) {
   }
 
   const memberCount = guild.memberCount;
+  const botCount = guild.members.cache.filter(member => member.user.bot).size;
+  const humanCount = memberCount - botCount;
   const boostCount = guild.premiumSubscriptionCount;
 
   const embed = new EmbedBuilder()
-    .setTitle('📊 Server Statistics')
+    .setTitle('📊 Server Stats')
     .setColor('#b544ee')
     .addFields(
-      { name: '👥 Members', value: `\`${memberCount}\`` },
+      { name: '👥 Members', value: `\`${humanCount}\`` },
       { name: '💜 CNS Tags', value: `\`${currentTaggedUserCount}\`` },
       { name: '💎 Server Boosts', value: `\`${boostCount}\`` }
     )
@@ -29,8 +31,8 @@ async function updateStats(client, guild, currentTaggedUserCount) {
     await channel.send({ embeds: [embed] });
   }
 
-  const timestamp = new Date().toLocaleString();
-  console.log(`📊 Stats updated: ${currentTaggedUserCount} tagged users (${timestamp})`);
+  const timestamp = new Date().toLocaleTimeString();
+  console.log(`📊 Stats updated (${timestamp})`);
 }
 
 module.exports = { updateStats }; 

@@ -33,7 +33,7 @@ app.get('/callback', async (req, res) => {
   const userResponse = await fetch('https://discord.com/api/users/@me', {
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'X-Track': '1', // Crucial for receiving primary_guild info
+      'X-Track': '1',
     },
   });
 

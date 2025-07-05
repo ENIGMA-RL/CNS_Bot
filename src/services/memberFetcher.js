@@ -2,7 +2,7 @@ const { getUserData } = require('./userService');
 
 async function fetchMembers(guild) {
   await guild.members.fetch();
-  console.log('🔍 Fetched members.');
+  console.log('✅ Fetched members');
 
   let membersUsingTag = 0;
 
@@ -12,7 +12,7 @@ async function fetchMembers(guild) {
       if (data?.primary_guild?.identity_enabled && data?.primary_guild?.tag === 'CNS') {
         membersUsingTag++;
       }
-      await new Promise(resolve => setTimeout(resolve, 100)); // to avoid rate limit
+      await new Promise(resolve => setTimeout(resolve, 20)); 
     } catch (err) {
       console.error(`Failed to fetch user data for ID ${member.id}`);
     }
