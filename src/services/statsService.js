@@ -37,7 +37,7 @@ async function updateStats(client, guild) {
   const boostCount = guild.premiumSubscriptionCount;
 
   const embed = new EmbedBuilder()
-    .setTitle('📊 Server Stats')
+    .setTitle('Server Stats')
     .setColor('#b544ee')
     .addFields(
       { name: '👥 Members', value: `\`${memberCount}\`` },

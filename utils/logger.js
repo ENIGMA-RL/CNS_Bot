@@ -8,7 +8,7 @@ const logger = createLogger({
   ),
   transports: [
     new transports.Console(),
-    // Add file transport if needed
+
   ],
 });
 
