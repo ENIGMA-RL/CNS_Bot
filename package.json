@@ -4,7 +4,9 @@
   "description": "A modular Discord bot using Discord.js",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "deploy": "git pull origin main && npm install && npm run start",
+    "reboot": "npx kill-port 3000 && npm run start"
   },
   "dependencies": {
     "discord-rpc": "^4.0.1",
