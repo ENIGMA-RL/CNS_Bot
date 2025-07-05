@@ -1,4 +1,4 @@
-name: deploy bot to droplet
+name: deploy to droplet
 
 on:
   push:
@@ -15,5 +15,13 @@ jobs:
           username: root
           key: ${{ secrets.DO_SSH_KEY }}
           script: |
-            cd /root/CNS_Bot
-            npm run deploy 
+            cd /root
+
+            if [ ! -d "CNS_Bot" ]; then
+              git clone git@github.com:ENIGMA-RL/CNS_Bot.git
+            fi
+
+            cd CNS_Bot
+            git pull origin main
+            npm install
+            nohup npm run start > output.log 2>&1 &
