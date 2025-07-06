@@ -30,5 +30,8 @@ jobs:
             echo "CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}" >> .env
             echo "PREFIX=${{ secrets.PREFIX }}" >> .env
 
+            # Stop the current running process
+            pkill -f 'node src/index.js' || true
 
+            # Start the new version
             nohup npm run start > output.log 2>&1 &
