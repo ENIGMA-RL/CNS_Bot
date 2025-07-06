@@ -15,7 +15,17 @@ const client = new Client({
 // Load commands
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-client.commands = commandFiles.map(file => require(`./commands/${file}`));
+
+// Initialize commands collection
+client.commands = [];
+
+// Register each command
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+  if (!client.commands.some(cmd => cmd.name === command.name)) {
+    client.commands.push(command);
+  }
+}
 
 // Event handlers
 client.once('ready', () => {
