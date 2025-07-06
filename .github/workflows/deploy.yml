@@ -33,8 +33,5 @@ jobs:
             # Stop the current running process
             pkill -f 'node src/index.js' || true
 
-            # Wait for a moment to ensure the process stops
-            sleep 5
-
-            # Start the new version
-            nohup npm run start > output.log 2>&1 &
+            # Start the new version detached
+            setsid npm run start > output.log 2>&1 < /dev/null &
