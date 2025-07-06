@@ -33,7 +33,7 @@ jobs:
             npm install
             echo "== Dependencies installed at $(date) =="
 
-            echo "== Writing .env file at $(date) =="
+            echo "== Writing .env at $(date) =="
             echo "TOKEN=${{ secrets.TOKEN }}" > .env
             echo "CLIENT_ID=${{ secrets.CLIENT_ID }}" >> .env
             echo "CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}" >> .env
@@ -41,7 +41,8 @@ jobs:
 
             echo "== Restarting bot via PM2 at $(date) =="
             pm2 delete CNS_Bot || true
-            pm2 start npm --name CNS_Bot -- run start
+            pm2 start npm --name CNS_Bot -- run start > /dev/null 2>&1 &
+            disown
             pm2 save
 
-            echo "== Deployment finished at $(date) =="
+            echo "== Finished at $(date) =="
