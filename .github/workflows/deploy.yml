@@ -30,8 +30,11 @@ jobs:
             echo "CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}" >> .env
             echo "PREFIX=${{ secrets.PREFIX }}" >> .env
 
-            # Stop the current running process
-            pkill -f 'node src/index.js' || true
+            # Stop old bot process if running
+            pm2 delete CNS_Bot || true
 
-            # Start the new version detached
-            setsid npm run start > output.log 2>&1 < /dev/null &
+            # Start bot with PM2
+            pm2 start npm --name CNS_Bot -- run start
+
+            # Save process list
+            pm2 save
