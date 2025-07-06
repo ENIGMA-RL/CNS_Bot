@@ -4,10 +4,10 @@
   "description": "Discord bot for the CSN server",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "deploy": "git pull origin main && npm install && npm run start",
-    "stop": "pkill -f 'node src/index.js'",
-    "reboot": "npx kill-port 3000 && npm run start"
+    "start": "pm2 start src/index.js --name CNS_Bot",
+    "stop": "pm2 stop CNS_Bot",
+    "restart": "pm2 restart CNS_Bot",
+    "deploy": "git pull origin main && npm install && pm2 restart CNS_Bot"
   },
   "dependencies": {
     "discord-rpc": "^4.0.1",
