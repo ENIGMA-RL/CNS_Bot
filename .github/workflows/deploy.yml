@@ -34,7 +34,7 @@ jobs:
             pkill -f 'node src/index.js' || true
 
             # Wait for a moment to ensure the process stops
-            sleep 2
+            sleep 5
 
             # Start the new version
             nohup npm run start > output.log 2>&1 &
