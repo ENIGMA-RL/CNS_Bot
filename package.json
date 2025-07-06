@@ -1,11 +1,12 @@
 {
   "name": "cns_bot",
   "version": "1.0.0",
-  "description": "A modular Discord bot using Discord.js",
+  "description": "Discord bot for the CSN server",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "deploy": "git pull origin main && npm install && npm run start",
+    "stop": "pkill -f 'node src/index.js'",
     "reboot": "npx kill-port 3000 && npm run start"
   },
   "dependencies": {
@@ -17,5 +18,5 @@
     "winston": "^3.17.0"
   },
   "author": "ENIGMA_RL",
-  "license": "ISC"
+  "license": "All rights reserved."
 }
