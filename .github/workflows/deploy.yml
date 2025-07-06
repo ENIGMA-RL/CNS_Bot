@@ -15,26 +15,33 @@ jobs:
           username: root
           key: ${{ secrets.DO_SSH_KEY }}
           script: |
+            echo "== Start at $(date) =="
+
             cd /root
 
             if [ ! -d "CNS_Bot" ]; then
+              echo "== Cloning repo at $(date) =="
               git clone git@github.com:ENIGMA-RL/CNS_Bot.git
             fi
 
             cd CNS_Bot
-            git pull origin main
-            npm install
 
+            echo "== Pulling latest changes at $(date) =="
+            git pull origin main
+
+            echo "== Installing dependencies at $(date) =="
+            npm install
+            echo "== Dependencies installed at $(date) =="
+
+            echo "== Writing .env file at $(date) =="
             echo "TOKEN=${{ secrets.TOKEN }}" > .env
             echo "CLIENT_ID=${{ secrets.CLIENT_ID }}" >> .env
             echo "CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}" >> .env
             echo "PREFIX=${{ secrets.PREFIX }}" >> .env
 
-            # Stop old bot process if running
+            echo "== Restarting bot via PM2 at $(date) =="
             pm2 delete CNS_Bot || true
-
-            # Start bot with PM2
             pm2 start npm --name CNS_Bot -- run start
-
-            # Save process list
             pm2 save
+
+            echo "== Deployment finished at $(date) =="
