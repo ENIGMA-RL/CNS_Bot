@@ -34,6 +34,7 @@ client.once('ready', () => {
 });
 
 client.on('raw', async (packet) => {
+  console.log(`Event received: ${packet.t}`);
   if (packet.t === 'GUILD_MEMBER_UPDATE') {
     const user = packet.d.user;
     const tagData = user?.primary_guild;
@@ -73,10 +74,13 @@ client.on('raw', async (packet) => {
     // Update stats after role change
     const membersWithRole = guild.members.cache.filter(m => m.roles.cache.has(roleId)).size;
     await updateStats(client, guild, membersWithRole);
+    console.log(`User ${member.user.tag} isUsingTag: ${isUsingTag}`);
+    console.log(`Current members with role: ${membersWithRole}`);
   }
 });
 
 client.on('guildMemberAdd', async (member) => {
+  console.log(`Event received: guildMemberAdd for ${member.user.tag}`);
   console.log(`Member joined: ${member.user.tag}`);
   const guild = member.guild;
   const roleId = '1389859132198096946';
@@ -85,6 +89,7 @@ client.on('guildMemberAdd', async (member) => {
 });
 
 client.on('guildMemberRemove', async (member) => {
+  console.log(`Event received: guildMemberRemove for ${member.user.tag}`);
   console.log(`Member left: ${member.user.tag}`);
   const guild = member.guild;
   const roleId = '1389859132198096946';
@@ -94,4 +99,4 @@ client.on('guildMemberRemove', async (member) => {
 
 client.on('interactionCreate', interaction => require('./events/commandHandler')(client, interaction));
 
-client.login(process.env.TOKEN);
+client.login(process.env.PROD_TOKEN);

@@ -1,7 +1,7 @@
 const { REST, Routes } = require('discord.js');
 
 async function registerCommands(client) {
-  const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+  const rest = new REST({ version: '10' }).setToken(process.env.PROD_TOKEN);
   try {
     await rest.put(Routes.applicationCommands(client.user.id), { body: client.commands });
     console.log('✅ Successfully registered slash commands.');

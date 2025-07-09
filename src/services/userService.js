@@ -4,7 +4,7 @@ async function getUserData(userId) {
   try {
     const response = await fetch(`https://discord.com/api/v10/users/${userId}`, {
       headers: {
-        Authorization: `Bot ${process.env.TOKEN}`,
+        Authorization: `Bot ${process.env.PROD_TOKEN}`,
       },
       timeout: 10000,
     });
