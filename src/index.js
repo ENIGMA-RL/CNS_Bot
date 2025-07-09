@@ -99,4 +99,4 @@ client.on('guildMemberRemove', async (member) => {
 
 client.on('interactionCreate', interaction => require('./events/commandHandler')(client, interaction));
 
-client.login(process.env.PROD_TOKEN);
+client.login(process.env.TOKEN);
