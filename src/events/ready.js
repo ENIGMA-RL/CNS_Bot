@@ -2,7 +2,7 @@ const { REST, Routes, EmbedBuilder } = require('discord.js');
 const { getUserData, updateStats } = require('../services/statsService');
 
 module.exports = async (client) => {
-  const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+  const rest = new REST({ version: '10' }).setToken(process.env.PROD_TOKEN);
   console.log('Starting bot...');
 
   try {

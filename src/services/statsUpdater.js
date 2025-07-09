@@ -1,6 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
 
 async function updateStats(client, guild, currentTaggedUserCount) {
+  console.log(`Updating stats for guild: ${guild.name}`);
+  console.log(`Current tagged user count: ${currentTaggedUserCount}`);
   const channel = guild.channels.cache.get('1390430066923798639');
   if (!channel) {
     console.error('Stats channel not found.');
