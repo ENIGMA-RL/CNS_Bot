@@ -2,7 +2,7 @@ const { REST, Routes } = require('discord.js');
 require('dotenv').config();
 
 const clientId = '1390367013351981077';
-const rest = new REST({ version: '10' }).setToken(process.env.PROD_TOKEN);
+const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 
 async function deletePingCommand() {
   try {
